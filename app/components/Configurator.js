@@ -39,7 +39,7 @@ Bot.on('error', err => {
 
 Bot.on('message', chatter => {
     console.log(chatter);
-    socket.emit('message', chatter);
+    socket.emit('message:', chatter);
   if(chatter.message === '!test') {
     Bot.say('Command executed! PogChamp')
   }
