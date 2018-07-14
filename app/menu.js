@@ -194,6 +194,13 @@ export default class MenuBuilder {
             click: () => {
               this.mainWindow.close();
             }
+          },
+          {
+            label: 'Toggle &Developer Tools',
+            accelerator: 'Alt+Ctrl+I',
+            click: () => {
+              this.mainWindow.toggleDevTools();
+            }
           }
         ]
       },

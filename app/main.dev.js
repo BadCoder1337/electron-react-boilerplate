@@ -30,15 +30,15 @@ if (
   require('module').globalPaths.push(p);
 }
 
-// const installExtensions = async () => {
-//   const installer = require('electron-devtools-installer');
-//   const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
-//   const extensions = ['REACT_DEVELOPER_TOOLS', 'REDUX_DEVTOOLS'];
+const installExtensions = async () => {
+  const installer = require('electron-devtools-installer');
+  const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
+  const extensions = ['REACT_DEVELOPER_TOOLS', 'REDUX_DEVTOOLS'];
 
-//   return Promise.all(
-//     extensions.map(name => installer.default(installer[name], forceDownload))
-//   ).catch(console.log);
-// };
+  return Promise.all(
+    extensions.map(name => installer.default(installer[name], forceDownload))
+  ).catch(console.log);
+};
 
 /**
  * Add event listeners...
@@ -53,25 +53,22 @@ app.on('window-all-closed', () => {
 });
 
 app.on('ready', async () => {
-  // if (
-  //   process.env.NODE_ENV === 'development' ||
-  //   process.env.DEBUG_PROD === 'true'
-  // ) {
-  //   await installExtensions();
-  // }
+  if (
+    process.env.NODE_ENV === 'development' ||
+    process.env.DEBUG_PROD === 'true'
+  ) {
+    await installExtensions();
+  }
 
   mainWindow = new BrowserWindow({
     show: false,
     width: 800,
-    height: 600,
-  //   webPreferences: {
-  //     webSecurity: false
-  // }
+    height: 600
   });
 
-  mainWindow.maximize();
-
   mainWindow.loadURL(`file://${__dirname}/app.html`);
+
+  mainWindow.maximize();
 
   // @TODO: Use 'ready-to-show' event
   //        https://github.com/electron/electron/blob/master/docs/api/browser-window.md#using-ready-to-show-event
@@ -87,6 +84,6 @@ app.on('ready', async () => {
     mainWindow = null;
   });
 
-  // const menuBuilder = new MenuBuilder(mainWindow);
-  // menuBuilder.buildMenu();
+  const menuBuilder = new MenuBuilder(mainWindow);
+  menuBuilder.buildMenu();
 });

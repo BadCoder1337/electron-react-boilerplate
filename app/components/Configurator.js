@@ -3,58 +3,14 @@ import * as B from "react-bootstrap";
 import Loading from 'react-loading';
 import MatchSelector from './MatchSelector';
 
-const remote = require('electron').remote;
-
-const fetch = remote.require('node-fetch');
-
-const TwitchBot = remote.require('twitch-bot');
-
-const localhost = remote.require('http').createServer();
-
-const socket = remote.require('socket.io')(localhost, {
-    path: '/',
-    serveClient: false,
-    cookie: false,
-    pingTimeout: 5000,
-    pingInterval: 10000
-});
-
-console.log(socket);
-
-localhost.listen(9876)
-
-const Bot = new TwitchBot({
-    username: 'doesntmeananything',
-    oauth: 'oauth:rx9x2uepvrciy50lypafjlw4fer249',
-    channels: ['fazebook']
-  })
-
-Bot.on('join', channel => {
-  console.log(`Joined channel: ${channel}`)
-})
-
-Bot.on('error', err => {
-  console.log(err)
-})
-
-Bot.on('message', chatter => {
-    console.log(chatter);
-    socket.emit('message:', chatter);
-  if(chatter.message === '!test') {
-    Bot.say('Command executed! PogChamp')
-  }
-})
+const fetch = require('electron').remote.require('node-fetch');
 
 class Configurator extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            title: [
-                "TEAM1", "TEAM2"
-            ],
-            logo: [
-                "img/default.jpg", "img/default.jpg"
-            ],
+            title: this.props.title,
+            logo: this.props.logo,
             score: [
                 0, 0
             ],
@@ -144,15 +100,18 @@ class Configurator extends React.Component {
             )
         } else {
             return (
-                <B.Form onBlur={this.submitConf} onInput={this.submitConf} onSubmit={this.submitConf}>
-                    <B.ControlLabel>Tournament Name</B.ControlLabel>
-                    <B.FormControl
-                        onChange={this.handleChange}
-                        name="name"
-                        value={this.state.name}
-                        type="text"/>
-                    <MatchSelector league={this.props.league} pushMatch={this.updateMatch}/>
-                    <br/>
+                <B.Form onBlur={this.submitConf} onSubmit={this.submitConf}>
+                    <B.FormGroup>
+                        <B.ControlLabel>Tournament Name</B.ControlLabel>
+                        <B.FormControl
+                            onChange={(e)=>{this.handleChange(e);setTimeout(this.submitConf,500)}}
+                            name="name"
+                            value={this.state.name}
+                            type="text"/>
+                    </B.FormGroup>
+                    <B.FormGroup>
+                        <MatchSelector league={this.props.league} pushMatch={this.updateMatch}/>
+                    </B.FormGroup>
                     <B.FormGroup
                         style={{
                         display: "flex"

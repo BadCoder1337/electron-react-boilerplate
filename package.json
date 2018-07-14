@@ -30,7 +30,8 @@
     "test": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 node --trace-warnings -r babel-register ./internals/scripts/RunTests.js",
     "test-all": "npm run lint && npm run flow && npm run build && npm run test && npm run test-e2e",
     "test-e2e": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 node --trace-warnings -r babel-register ./internals/scripts/RunTests.js e2e",
-    "test-watch": "npm test -- --watch"
+    "test-watch": "npm test -- --watch",
+    "debug-prod": "cross-env DEBUG_PROD=true && npm run package"
   },
   "browserslist": "electron 1.6",
   "lint-staged": {
@@ -42,7 +43,7 @@
   },
   "build": {
     "productName": "StreamHUDConfigurator",
-    "appId": "xyz.badcoder1337.eslhudconf",
+    "appId": "xyz.badcoder1337.streamhudconf",
     "files": [
       "dist/",
       "node_modules/",
@@ -67,7 +68,6 @@
     },
     "win": {
       "target": [
-        "nsis",
         "portable"
       ]
     },
@@ -204,21 +204,18 @@
     "electron-debug": "^1.5.0",
     "font-awesome": "^4.7.0",
     "history": "^4.7.2",
-    "node-fetch": "^2.1.2",
     "react": "^16.4.0",
     "react-bootstrap": "^0.32.1",
     "react-dom": "^16.4.0",
     "react-hot-loader": "^4.2.0",
-    "react-loading": "^2.0.2",
+    "react-loading": "^2.0.3",
     "react-redux": "^5.0.7",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "react-router-redux": "^5.0.0-alpha.6",
     "redux": "^4.0.0",
     "redux-thunk": "^2.2.0",
-    "socket.io": "^2.1.1",
-    "source-map-support": "^0.5.6",
-    "twitch-bot": "git+https://github.com/kritzware/twitch-bot.git"
+    "source-map-support": "^0.5.6"
   },
   "devEngines": {
     "node": ">=7.x",
