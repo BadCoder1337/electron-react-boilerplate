@@ -1,7 +1,8 @@
 import React from "react";
 import * as B from "react-bootstrap";
+import {remote} from "electron"
 
-const fetch = require('electron').remote.require('node-fetch')
+const fetch = remote.require('node-fetch')
 
 class Start extends React.Component {
     constructor(props) {
@@ -19,8 +20,8 @@ class Start extends React.Component {
         if (!this.busy && e.target.value.length >= 5) {
             this.busy = !this.busy;
             try {
-                let res = await fetch(`https://play.eslgaming.com/api/leagues?path=/play${new URL(e.target.value).pathname}&limit.total=2`, {method: 'get'});
-                let answ = await res.json();
+                const res = await fetch(`https://play.eslgaming.com/api/leagues?path=/play${new URL(e.target.value).pathname}&limit.total=2`, {method: 'get'});
+                const answ = await res.json();
                 console.log(answ);
                 switch (Object.keys(answ).length) {
                     case 0:
@@ -57,26 +58,30 @@ class Start extends React.Component {
     }
     render() {
         return (
-            <form onSubmit={this.catchEnter}>
-                <B.FormGroup
-                    onSubmit={this.submitLeague}
-                    controlId={"formTournament"}
-                    validationState={this.state.status}/>
-                <B.ControlLabel>Select a ESL league</B.ControlLabel>
-                <B.FormControl
-                    type="text"
-                    value={this.state.value}
-                    placeholder="enter a ESL league link"
-                    onChange={this.handleChange}/>
-                <B.HelpBlock>{this.state.tip}</B.HelpBlock>
-                <B.ButtonGroup>
-                    <B.Button
-                        disabled={this.state.status !== "success"}
-                        onClick={this.submitLeague}
-                        bsStyle={this.state.status}>Submit</B.Button>
-                    <B.Button bsStyle="primary" onClick={this.skip}>Skip & Enter manually</B.Button>
-                </B.ButtonGroup>
-            </form>
+          <form onSubmit={this.catchEnter}>
+            <B.FormGroup
+              onSubmit={this.submitLeague}
+              controlId="formTournament"
+              validationState={this.state.status}
+            />
+            <B.ControlLabel>Select a ESL league</B.ControlLabel>
+            <B.FormControl
+              type="text"
+              value={this.state.value}
+              placeholder="enter a ESL league link"
+              onChange={this.handleChange}
+            />
+            <B.HelpBlock>{this.state.tip}</B.HelpBlock>
+            <B.ButtonGroup>
+              <B.Button
+                disabled={this.state.status !== "success"}
+                onClick={this.submitLeague}
+                bsStyle={this.state.status}
+              >Submit
+              </B.Button>
+              <B.Button bsStyle="primary" onClick={this.skip}>Skip & Enter manually</B.Button>
+            </B.ButtonGroup>
+          </form>
         )
     }
 }

@@ -1,9 +1,10 @@
 import React from "react";
 import * as B from "react-bootstrap";
 import Loading from 'react-loading';
+import {remote} from "electron"
 import MatchSelector from './MatchSelector';
 
-const fetch = require('electron').remote.require('node-fetch');
+const fetch = remote.require('node-fetch');
 
 class Configurator extends React.Component {
     constructor(props) {
@@ -23,8 +24,8 @@ class Configurator extends React.Component {
     }
     componentDidMount = async() => {
         if (this.state.loading) {
-            let res = await fetch(`https://api.eslgaming.com/play/v1/leagues/${this.props.league}`, {method: 'get'});
-            let answ = await res.json();
+            const res = await fetch(`https://api.eslgaming.com/play/v1/leagues/${this.props.league}`, {method: 'get'});
+            const answ = await res.json();
             this.league = answ;
             this.setState({loading: false, name: answ.name.full});
             this.submitConf();
@@ -92,122 +93,138 @@ class Configurator extends React.Component {
     render() {
         if (this.loading) {
             return (
-                <div style={{
+              <div style={{
                     margin: "3% auto 3% auto"
-                }}>
-                    <Loading type="spin" color="#000000"/>
-                </div>
+                }}
+              >
+                <Loading type="spin" color="#000000" />
+              </div>
             )
-        } else {
+        } 
             return (
-                <B.Form onBlur={this.submitConf} onSubmit={this.submitConf}>
-                    <B.FormGroup>
-                        <B.ControlLabel>Tournament Name</B.ControlLabel>
-                        <B.FormControl
-                            onChange={(e)=>{this.handleChange(e);setTimeout(this.submitConf,500)}}
-                            name="name"
-                            value={this.state.name}
-                            type="text"/>
-                    </B.FormGroup>
-                    <B.FormGroup>
-                        <MatchSelector league={this.props.league} pushMatch={this.updateMatch}/>
-                    </B.FormGroup>
-                    <B.FormGroup
-                        style={{
+              <B.Form onBlur={this.submitConf} onSubmit={this.submitConf}>
+                <B.FormGroup>
+                  <B.ControlLabel>Tournament Name</B.ControlLabel>
+                  <B.FormControl
+                    onChange={(e)=>{this.handleChange(e);setTimeout(this.submitConf,500)}}
+                    name="name"
+                    value={this.state.name}
+                    type="text"
+                  />
+                </B.FormGroup>
+                <B.FormGroup>
+                  <MatchSelector league={this.props.league} pushMatch={this.updateMatch} />
+                </B.FormGroup>
+                <B.FormGroup
+                  style={{
                         display: "flex"
-                    }}>
-                        <B.Col sm={11}>
-                            <B.Col sm={3}>
-                                <B.ControlLabel>Team1 (Blue)</B.ControlLabel>
-                            </B.Col>
-                            <B.Col sm={4}>
-                                <B.ControlLabel>Title</B.ControlLabel>
-                                <B.FormControl
-                                    onChange={this.handleChange}
-                                    id="0"
-                                    name="title"
-                                    value={this.state.title[0]}
-                                    type="text"/>
-                            </B.Col>
-                            <B.Col sm={4}>
-                                <B.ControlLabel>Logo URL</B.ControlLabel>
-                                <B.FormControl
-                                    onChange={this.handleChange}
-                                    id="0"
-                                    name="logo"
-                                    value={this.state.logo[0]}
-                                    type="text"/>
-                            </B.Col>
-                            <B.Col sm={1}>
-                                <B.ControlLabel>Score</B.ControlLabel>
-                                <B.FormControl
-                                    onChange={this.handleChange}
-                                    id="0"
-                                    disabled={this.state.bo1}
-                                    name="score"
-                                    value={this.state.score[0]}
-                                    type="text"/>
-                            </B.Col>
-                            <B.Col className={"w-100"}></B.Col>
-                            <B.Col sm={3}>
-                                <B.ControlLabel>Team2 (Orange)</B.ControlLabel>
-                            </B.Col>
-                            <B.Col sm={4}>
-                                <B.ControlLabel>Title</B.ControlLabel>
-                                <B.FormControl
-                                    onChange={this.handleChange}
-                                    id="1"
-                                    name="title"
-                                    value={this.state.title[1]}
-                                    type="text"/>
-                            </B.Col>
-                            <B.Col sm={4}>
-                                <B.ControlLabel>Logo URL</B.ControlLabel>
-                                <B.FormControl
-                                    onChange={this.handleChange}
-                                    id="1"
-                                    name="logo"
-                                    value={this.state.logo[1]}
-                                    type="text"/>
-                            </B.Col>
-                            <B.Col sm={1}>
-                                <B.ControlLabel>Score</B.ControlLabel>
-                                <B.FormControl
-                                    onChange={this.handleChange}
-                                    id="1"
-                                    disabled={this.state.bo1}
-                                    name="score"
-                                    value={this.state.score[1]}
-                                    type="text"/>
-                            </B.Col>
-                        </B.Col>
-                        <B.Col
-                            sm={1}
-                            style={{
+                    }}
+                >
+                  <B.Col sm={11}>
+                    <B.Col sm={3}>
+                      <B.ControlLabel>Team1 (Blue)</B.ControlLabel>
+                    </B.Col>
+                    <B.Col sm={4}>
+                      <B.ControlLabel>Title</B.ControlLabel>
+                      <B.FormControl
+                        onChange={this.handleChange}
+                        id="0"
+                        name="title"
+                        value={this.state.title[0]}
+                        type="text"
+                      />
+                    </B.Col>
+                    <B.Col sm={4}>
+                      <B.ControlLabel>Logo URL</B.ControlLabel>
+                      <B.FormControl
+                        onChange={this.handleChange}
+                        id="0"
+                        name="logo"
+                        value={this.state.logo[0]}
+                        type="text"
+                      />
+                    </B.Col>
+                    <B.Col sm={1}>
+                      <B.ControlLabel>Score</B.ControlLabel>
+                      <B.FormControl
+                        onChange={this.handleChange}
+                        id="0"
+                        disabled={this.state.bo1}
+                        name="score"
+                        value={this.state.score[0]}
+                        type="text"
+                      />
+                    </B.Col>
+                    <B.Col className="w-100" />
+                    <B.Col sm={3}>
+                      <B.ControlLabel>Team2 (Orange)</B.ControlLabel>
+                    </B.Col>
+                    <B.Col sm={4}>
+                      <B.ControlLabel>Title</B.ControlLabel>
+                      <B.FormControl
+                        onChange={this.handleChange}
+                        id="1"
+                        name="title"
+                        value={this.state.title[1]}
+                        type="text"
+                      />
+                    </B.Col>
+                    <B.Col sm={4}>
+                      <B.ControlLabel>Logo URL</B.ControlLabel>
+                      <B.FormControl
+                        onChange={this.handleChange}
+                        id="1"
+                        name="logo"
+                        value={this.state.logo[1]}
+                        type="text"
+                      />
+                    </B.Col>
+                    <B.Col sm={1}>
+                      <B.ControlLabel>Score</B.ControlLabel>
+                      <B.FormControl
+                        onChange={this.handleChange}
+                        id="1"
+                        disabled={this.state.bo1}
+                        name="score"
+                        value={this.state.score[1]}
+                        type="text"
+                      />
+                    </B.Col>
+                  </B.Col>
+                  <B.Col
+                    sm={1}
+                    style={{
                             display: "flex"
-                        }}>
-                            <div
-                                style={{
+                        }}
+                  >
+                    <div
+                      style={{
                                 marginTop: "auto",
                                 marginBottom: "auto"
-                            }}>
-                                <B.Checkbox
-                                    name="esl"
-                                    onChange={(e)=>{this.handleChange(e);setTimeout(this.submitConf,500)}}
-                                    checked={this.state.esl}>ESL Logo</B.Checkbox>
-                                <B.Checkbox
-                                    name="bo1"
-                                    onChange={(e)=>{this.handleChange(e);setTimeout(this.submitConf,500)}}
-                                    checked={this.state.bo1}>BO1</B.Checkbox>
-                                <B.Button onClick={this.swap}><B.Glyphicon glyph="refresh"/>
-                                    Swap</B.Button>
-                            </div>
+                            }}
+                    >
+                      <B.Checkbox
+                        name="esl"
+                        onChange={(e)=>{this.handleChange(e);setTimeout(this.submitConf,500)}}
+                        checked={this.state.esl}
+                      >ESL Logo
+                      </B.Checkbox>
+                      <B.Checkbox
+                        name="bo1"
+                        onChange={(e)=>{this.handleChange(e);setTimeout(this.submitConf,500)}}
+                        checked={this.state.bo1}
+                      >BO1
+                      </B.Checkbox>
+                      <B.Button onClick={this.swap}><B.Glyphicon glyph="refresh" />
+                                    Swap
+                      </B.Button>
+                    </div>
 
-                        </B.Col>
-                    </B.FormGroup>
-                </B.Form>
+                  </B.Col>
+                </B.FormGroup>
+              </B.Form>
             )
-        }
+        
     }
 }
 

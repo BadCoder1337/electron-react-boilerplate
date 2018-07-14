@@ -16,24 +16,25 @@ class Preview extends React.Component {
     }
     render() {
         const tooltip = (
-            <B.Tooltip id="tooltip1">
-                {this.state.tip}
-            </B.Tooltip>
+          <B.Tooltip id="tooltip1">
+            {this.state.tip}
+          </B.Tooltip>
         )
         return (
-            <div>
-                <h3>Preview</h3>
-                <iframe
-                    style={{height: '120px'}}
-                    className={'preview'}
-                    title="Preview"
-                    src={this.props.link+'&f=1'}
-                    scrolling="no"/>
-                <h4>Hud (1920x120)</h4>
-                <B.OverlayTrigger placement="top" overlay={tooltip}>
-                    <B.FormControl id="copy1" onClick={this.copy} type="text" value={this.props.link} readOnly/>
-                </B.OverlayTrigger>
-            </div>
+          <div>
+            <h3>Preview</h3>
+            <iframe
+              style={{height: '120px'}}
+              className="preview"
+              title="Preview"
+              src={`${this.props.link}&f=1`}
+              scrolling="no"
+            />
+            <h4>Hud (1920x120)</h4>
+            <B.OverlayTrigger placement="top" overlay={tooltip}>
+              <B.FormControl id="copy1" onClick={this.copy} type="text" value={this.props.link} readOnly />
+            </B.OverlayTrigger>
+          </div>
         )
     }
 }
