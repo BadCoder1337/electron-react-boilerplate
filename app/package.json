@@ -6,6 +6,7 @@
   "main": "./main.prod.js",
   "author": {
     "name": "BadCoder1337 a.k.a. FaZebook#1488",
+    "email": "admin@badcoder1337.xyz",
     "url": "https://github.com/badcoder1337"
   },
   "scripts": {
