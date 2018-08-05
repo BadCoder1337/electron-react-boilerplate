@@ -1,7 +1,7 @@
 {
   "name": "stream-hud-configurator",
   "productName": "StreamHUDConfigurator",
-  "version": "1.1.1",
+  "version": "1.2.1",
   "description": "Get pretty HUD for streams",
   "main": "./main.prod.js",
   "author": {
@@ -15,6 +15,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "electron-updater": "^3.0.1",
     "fresh-localhost": "^1.0.0",
     "node-fetch": "^2.1.2",
     "socket.io": "^2.1.1",

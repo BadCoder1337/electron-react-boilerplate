@@ -1,11 +1,11 @@
 import React from 'react';
 import { render } from 'react-dom';
-import App from './components/App';
+import Root from './components/Root';
 import './app.global.css';
 
 // const store = configureStore();
 
-render(<App />, document.getElementById('root'));
+render(<Root />, document.getElementById('root'));
 
 // if (module.hot) {
 //   module.hot.accept('./containers/Root', () => {

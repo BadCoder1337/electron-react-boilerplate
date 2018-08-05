@@ -28,6 +28,13 @@ class TwitchVote extends React.Component {
             pingTimeout: 5000,
             pingInterval: 10000
         });
+        
+        const triggerA = ['team1', 'a', 'left', 'blue', '1', '+', 'one', 'first', 'син', 'один', 'перв', 'лев', this.props.title[0].toLowerCase()];
+        const triggerB = ['team2', 'b', 'right', 'orange', '2', '-', 'two', 'second','оранж', 'два', 'втор', 'прав', this.props.title[1].toLowerCase()];
+
+        this.setState({
+            voteTip: `Trigger sequences: 1) ${triggerA.join(', ')}; 2) ${triggerB.join(', ')}`
+        })
 
         this.io.on('connection', () => {
             const pool = new Set([...votesA, ...votesB])
@@ -49,18 +56,17 @@ class TwitchVote extends React.Component {
         })
 
         this.bot.on('message', chatter => {
-            if (!(new Set([...votesA, ...votesB]).has(chatter.username))) {                
-                const vote4A = ['team1', 'a', 'left', 'blue', '1', '+', 'one', 'first', 'син', 'один', 'перв', 'лев', this.props.title[0]].some(e => chatter.message.toLowerCase().includes(e))
-                const vote4B = ['team2', 'b', 'right', 'orange', '2', '-', 'two', 'second','оранж', 'два', 'втор', 'прав', this.props.title[1]].some(e => chatter.message.toLowerCase().includes(e))
+            if (!(new Set([...votesA, ...votesB]).has(chatter.username))) {
+                const vote4A = triggerA.some(e => chatter.message.toLowerCase().includes(e))
+                const vote4B = triggerB.some(e => chatter.message.toLowerCase().includes(e))
                 if (vote4A ^ vote4B) {
                     vote4A ? votesA.add(chatter.username) : votesB.add(chatter.username);
-                    const pool = new Set([...votesA, ...votesB]);
                     const msg = {
-                        percent: [Math.round(votesA.size/pool.size*100), Math.round(votesB.size/pool.size*100)]
+                        percent: [Math.round(votesA.size/(votesA.size+votesB.size)*100), Math.round(votesB.size/(votesA.size+votesB.size)*100)]
                     }
                     this.io.emit('message', msg);
                     this.setState({
-                        voteTip: `Team1: ${msg.percent[0]}%, Team2: ${msg.percent[1]}%, Total: ${pool.size}`
+                        voteTip: `Team1: ${votesA.size}(${msg.percent[0]}%), Team2: ${votesB.size}(${msg.percent[1]}%), Total: ${votesA.size+votesB.size}. Trigger sequences: 1) ${triggerA.join(', ')}; 2) ${triggerB.join(', ')}`
                     })
                 }
             }
@@ -71,7 +77,7 @@ class TwitchVote extends React.Component {
         this.bot.close();
         this.io.close();
         this.localhost.close();
-        this.setState({bot: false})
+        this.setState({bot: false, voteTip: ''});
     }
     handleChange = (e) => {
         localStorage[e.target.name] = e.target.value.replace(/\ /, '');

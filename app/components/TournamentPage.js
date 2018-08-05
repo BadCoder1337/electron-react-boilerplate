@@ -1,14 +1,9 @@
 import React from "react";
 import * as B from "react-bootstrap";
-import Preview from "./Preview";
-import Start from "./Start";
-import Configurator from "./Configurator";
-import TwitchVote from "./TwitchVote";
-import VoteHud from "./VoteHud"
 
 const domain = 'http://localhost:8080'
 
-class App extends React.Component {
+class TournamentPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -48,8 +43,8 @@ class App extends React.Component {
         })
     }
     render() {
-        switch (this.state.league) {
-            case null:
+        // switch (this.state.league) {
+        //     case null:
                 return (
                   <div>
                     <Preview link={this.state.linkHud} />
@@ -57,30 +52,7 @@ class App extends React.Component {
                     <Start submitLeague={this.submitLeague} />
                   </div>
                 )
-                // case -1:
-            default:
-                return (
-                  <div>
-                    <B.Button onClick={this.resetState} bsStyle="danger">Reset</B.Button>
-                    <Preview link={this.state.linkHud} />
-                    <br />
-                    <Configurator
-                      pushConf={this.updateHudLink}
-                      logo={this.state.logo}
-                      title={this.state.title}
-                      league={this.state.league}
-                    />
-                    <br />
-                    <TwitchVote
-                      title={this.state.title}
-                      pushConf={this.updateVoteLink}
-                      name={this.state.name}
-                    />
-                    <br />
-                    <VoteHud link={this.state.linkVote} />
-                  </div>
-                )
-        }
+        // }
     }
 }
-export default App;
+export default TournamentPage;
