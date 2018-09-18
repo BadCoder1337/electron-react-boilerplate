@@ -1,6 +1,6 @@
-Rainbow Six HUD creator for streams
+# Rainbow Six HUD creator for streams
 
-Download release or build yourself
+### Download release or build yourself
 
 - `yarn` or `npm install` - install dependencies
 - `yarn dev` or `npm run dev` - debug run
